@@ -11,6 +11,10 @@ public class Drive extends Command {
 	
 	private DifferentialDrive drive =  Robot.driveTrain;
 	
+	public Drive () {
+		requires(drive);
+	}
+	
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub

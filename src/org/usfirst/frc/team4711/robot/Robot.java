@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4711.robot.commands.ExampleCommand;
+import org.usfirst.frc.team4711.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4711.robot.subsystems.ExampleSubsystem;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -26,7 +27,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final DifferentialDrive driveTrain = new DifferentialDrive(new WPI_TalonSRX(0), new WPI_TalonSRX(1));
+	public static final DriveTrain drivetrain = new DriveTrain();
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
