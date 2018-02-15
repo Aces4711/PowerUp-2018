@@ -5,19 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team4711.robot.subsystems;
+package org.usfirst.frc.team4711.robot.config;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * An example subsystem.  You can replace me with your own Subsystem.
- */
-public class ExampleSubsystem extends Subsystem {
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-
-	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
-	}
+public class RobotMap {
+	public static final int FLTalon = 0;
+	public static final int FRTalon = 1;
+	public static final int BLTalon = 2;
+	public static final int BRTalon = 3;
+	public static final int BETalon = 4;
+	public static final int FETalon = 5;
+	public static final int JOYSTICK_PORT = 0;
+	public static final int AXIS_TRIGGER_LT = 2;
+	public static final int AXIS_TRIGGER_RT = 3;
+	public static final int AXIS_LEFT_X = 0;
 }
