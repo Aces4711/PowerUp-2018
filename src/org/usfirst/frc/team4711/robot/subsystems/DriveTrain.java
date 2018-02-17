@@ -29,7 +29,7 @@ public class DriveTrain extends Subsystem {
 	    SpeedControllerGroup m_left = new SpeedControllerGroup(FLMotor, BLMotor);
 		SpeedControllerGroup m_right = new SpeedControllerGroup(FRMotor, BRMotor);
 
-		wheels = new DifferentialDrive(m_left, m_right);
+		wheels = new DifferentialDrive(m_right, m_left);
 		
 	}
 	

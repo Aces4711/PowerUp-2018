@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4711.robot.commands;
 
 import org.usfirst.frc.team4711.robot.config.RobotMap;
+import org.usfirst.frc.team4711.robot.subsystems.ClawSubsystem;
 import org.usfirst.frc.team4711.robot.subsystems.ControllerSubsystem;
 import org.usfirst.frc.team4711.robot.config.KeyMap;
-//import org.usfirst.frc.team4711.robot.subsystems.ControllerSubsystem;
 import org.usfirst.frc.team4711.robot.subsystems.DriveTrain;
 //import org.usfirst.frc.team4711.robot.subsystems.RobotEyeSubsystem;
 
@@ -15,6 +15,7 @@ public class DriveWithController extends Command {
 	private ControllerSubsystem controllerSubsystem;
 	//private RobotEyeSubsystem robotEyeSubsystem;
 	private DriveTrain driveSubsystem;
+	private ClawSubsystem clawSubsystem;
 	
 	public DriveWithController() {
 		super("Drive With Joystick");
@@ -29,6 +30,9 @@ public class DriveWithController extends Command {
 		
 		driveSubsystem = DriveTrain.getInstance();
 		requires(driveSubsystem);
+		
+		clawSubsystem = ClawSubsystem.getInstance();
+		requires(clawSubsystem);
 	}
 	
 	protected void initialize() {
@@ -45,7 +49,11 @@ public class DriveWithController extends Command {
     											((controllerSubsystem.getController().getRawAxis(KeyMap.ACCEL_BACK) > 0)? 
     													-controllerSubsystem.getController().getRawAxis(KeyMap.ACCEL_BACK):
     														0.0), -controllerSubsystem.getController().getRawAxis(RobotMap.AXIS_LEFT_X));
-        
+    	
+    	clawSubsystem.arcadeDrive((controllerSubsystem.getController().getAButton(KeyMap.INTAKE)))?
+    			controllerSubsystem.getController().getAButton(KeyMap.INTAKE);
+    		
+    	}
     }
     
 	@Override
@@ -56,6 +64,7 @@ public class DriveWithController extends Command {
 	@Override
     protected void end() {
 		driveSubsystem.stop();
+		clawSubsystem.stop();
 		//robotEyeSubsystem.endVisionFront();
 		//robotEyeSubsystem.endVisionBack();
     }
