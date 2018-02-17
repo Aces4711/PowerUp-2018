@@ -9,14 +9,17 @@ package org.usfirst.frc.team4711.robot.config;
 
 
 public class RobotMap {
-	public static final int FLTalon = 0;
+	public static final int FLTalon = 4;
 	public static final int FRTalon = 1;
 	public static final int BLTalon = 2;
 	public static final int BRTalon = 3;
-	public static final int BETalon = 4;
-	public static final int FETalon = 5;
+	public static final int ETalon = 4;
+	public static final int CTalon = 5;
+	
 	public static final int JOYSTICK_PORT = 0;
 	public static final int AXIS_TRIGGER_LT = 2;
 	public static final int AXIS_TRIGGER_RT = 3;
 	public static final int AXIS_LEFT_X = 0;
+	
+	public static final int LEFT_CLIMB_CHANNEL = 6;
 }
