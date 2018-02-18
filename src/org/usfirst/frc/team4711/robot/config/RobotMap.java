@@ -21,7 +21,9 @@ public class RobotMap {
 	public static final int AXIS_TRIGGER_LT = 2;
 	public static final int AXIS_TRIGGER_RT = 3;
 	public static final int AXIS_LEFT_X = 0;
+	
 	public static final int A = 1;
+	public static final int B = 2;
 	
 	public static final int LEFT_CLIMB_CHANNEL = 6;
 }

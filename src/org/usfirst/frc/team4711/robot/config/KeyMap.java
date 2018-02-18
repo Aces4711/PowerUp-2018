@@ -6,6 +6,7 @@ public class KeyMap {
 	public static final int WINCH_DOWN = RobotMap.B;
 	*/
 	public static final int INTAKE = RobotMap.A;
+	public static final int EJECT = RobotMap.B;
 	/*
 	public static final int INTAKE_UNJAM = RobotMap.Y;
 	public static final int CONTINUOUS_LAUNCH = RobotMap.TRIGGER_LB;
