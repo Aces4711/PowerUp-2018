@@ -16,14 +16,18 @@ public class RobotMap {
 	public static final int ETalon = 8;
 	public static final int LCTalon = 6;
 	public static final int RCTalon = 7;
+	public static final int WINCH = 5;
 	
 	public static final int JOYSTICK_PORT = 0;
 	public static final int AXIS_TRIGGER_LT = 2;
 	public static final int AXIS_TRIGGER_RT = 3;
 	public static final int AXIS_LEFT_X = 0;
+	public static final int AXIS_RIGHT_Y = 5;
 	
 	public static final int A = 1;
 	public static final int B = 2;
+	public static final int X = 3;
+	public static final int Y = 4;
 	
-	public static final int LEFT_CLIMB_CHANNEL = 6;
+	public static final double DRIVE_WHEEL_DIAMETER = 3.94;
 }

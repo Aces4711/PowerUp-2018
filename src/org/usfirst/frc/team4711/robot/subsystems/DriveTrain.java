@@ -1,10 +1,11 @@
 package org.usfirst.frc.team4711.robot.subsystems;
 
-import org.usfirst.frc.team4711.robot.commands.DriveWithController;
+import org.usfirst.frc.team4711.robot.commands.CommandWithController;
 //import org.usfirst.frc.team4711.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team4711.robot.config.MotorSpeeds;
 import org.usfirst.frc.team4711.robot.config.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -13,53 +14,72 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 
 public class DriveTrain extends Subsystem {
-	private WPI_TalonSRX FLMotor, FRMotor, BRMotor, BLMotor;
-	private DifferentialDrive wheels;
+	private WPI_TalonSRX _rightWithEncoder, _leftWithEncoder;
+	private DifferentialDrive _wheels;
 	
-	private static DriveTrain instance;
+	private static DriveTrain _instance;
 
 	private DriveTrain() {
 		super("driveSubsystem");
 		
-		FLMotor = new WPI_TalonSRX(RobotMap.FLTalon);
-		FRMotor = new WPI_TalonSRX(RobotMap.FRTalon);
-		BLMotor = new WPI_TalonSRX(RobotMap.BLTalon);
-		BRMotor = new WPI_TalonSRX(RobotMap.BRTalon);
+		WPI_TalonSRX left = new WPI_TalonSRX(RobotMap.BLTalon);
+		WPI_TalonSRX right = new WPI_TalonSRX(RobotMap.BRTalon);
+		
+		_leftWithEncoder = new WPI_TalonSRX(RobotMap.FLTalon);
+		_leftWithEncoder.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+;
+		_rightWithEncoder = new WPI_TalonSRX(RobotMap.FRTalon);
+		_rightWithEncoder.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 	
-	    SpeedControllerGroup m_left = new SpeedControllerGroup(FLMotor, BLMotor);
-		SpeedControllerGroup m_right = new SpeedControllerGroup(FRMotor, BRMotor);
+	    SpeedControllerGroup leftGroup = new SpeedControllerGroup(left, _leftWithEncoder);
+		SpeedControllerGroup rightGroup = new SpeedControllerGroup(right, _rightWithEncoder);
 
-		wheels = new DifferentialDrive(m_right, m_left);
+		_wheels = new DifferentialDrive(leftGroup, rightGroup);
+		_wheels.setSafetyEnabled(false);
 		
 	}
 	
 	public static DriveTrain getInstance(){
-		if(instance == null)
-			instance = new DriveTrain();
+		if(_instance == null)
+			_instance = new DriveTrain();
 		
-		return instance;
+		return _instance;
 	}
 	
 	public void arcadeDrive(double moveValue, double rotateValue){
-		wheels.arcadeDrive(moveValue * MotorSpeeds.DRIVE_SPEED_ACCEL, rotateValue * MotorSpeeds.DRIVE_SPEED_TURN);
+		_wheels.arcadeDrive(moveValue * MotorSpeeds.DRIVE_SPEED_ACCEL, rotateValue * MotorSpeeds.DRIVE_SPEED_TURN);
 	}	
 	
 	public void stop(){
-		wheels.stopMotor();
+		_wheels.stopMotor();
+	}
+	
+	public void resetEncoders() {
+		_leftWithEncoder.setSelectedSensorPosition(0, 0, 0);
+		_rightWithEncoder.setSelectedSensorPosition(0, 0, 0);
+	}
+	
+	public int getCurrentRightPosition() {
+		return _rightWithEncoder.getSelectedSensorPosition(0);
+	}
+	
+	public int getCurrentLeftPosition() {
+		return _rightWithEncoder.getSelectedSensorPosition(0);
 	}
 	
 	public void driveStraight(double moveValue){
 		double leftMoveValue = moveValue * MotorSpeeds.DRIVE_SPEED_ACCEL;
 		double rightMoveValue = moveValue * MotorSpeeds.DRIVE_SPEED_ACCEL;
 		
-		/*
-		if(Math.abs(frontLeftWithEncoder.getSpeed()) > Math.abs(frontRightWithEncoder.getSpeed()))
-			leftMoveValue *= Math.abs(frontRightWithEncoder.getSpeed() / frontLeftWithEncoder.getSpeed());
-		else if(Math.abs(frontLeftWithEncoder.getSpeed()) < Math.abs(frontRightWithEncoder.getSpeed()))
-			rightMoveValue *= Math.abs(frontLeftWithEncoder.getSpeed() / frontRightWithEncoder.getSpeed());
-		*/
+		double rightSpeed = Math.abs(_rightWithEncoder.getSelectedSensorVelocity(0));
+		double leftSpeed = Math.abs(_leftWithEncoder.getSelectedSensorVelocity(0));
 		
-		wheels.tankDrive(rightMoveValue, leftMoveValue);
+		if(rightSpeed > leftSpeed)
+			rightMoveValue *= leftMoveValue / rightMoveValue;
+		else if(leftSpeed > rightSpeed)
+			leftMoveValue *= rightSpeed / leftSpeed;
+		
+		_wheels.tankDrive(rightMoveValue, leftMoveValue);
 		
 	}
 	
@@ -67,19 +87,20 @@ public class DriveTrain extends Subsystem {
 		double leftMoveValue = moveValue * MotorSpeeds.DRIVE_SPEED_TURN;
 		double rightMoveValue = moveValue * MotorSpeeds.DRIVE_SPEED_TURN;
 		
-		/*
-		if(Math.abs(frontLeftWithEncoder.getSpeed()) > Math.abs(frontRightWithEncoder.getSpeed()))
-			leftMoveValue *= Math.abs(frontRightWithEncoder.getSpeed() / frontLeftWithEncoder.getSpeed());
-		else if(Math.abs(frontLeftWithEncoder.getSpeed()) < Math.abs(frontRightWithEncoder.getSpeed()))
-			rightMoveValue *= Math.abs(frontLeftWithEncoder.getSpeed() / frontRightWithEncoder.getSpeed());
-		*/
+		double rightSpeed = Math.abs(_rightWithEncoder.getSelectedSensorVelocity(0));
+		double leftSpeed = Math.abs(_leftWithEncoder.getSelectedSensorVelocity(0));
 		
-		wheels.tankDrive(leftMoveValue, -rightMoveValue);
+		if(rightSpeed > leftSpeed)
+			rightMoveValue *= leftMoveValue / rightMoveValue;
+		else if(leftSpeed > rightSpeed)
+			leftMoveValue *= rightSpeed / leftSpeed;
+		
+		_wheels.tankDrive(leftMoveValue, -rightMoveValue);
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new DriveWithController());
+		//setDefaultCommand(new CommandWithController());
 	}
 
 }

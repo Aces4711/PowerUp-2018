@@ -1,23 +1,27 @@
+//Package declaration
 package org.usfirst.frc.team4711.robot;
 
-import org.usfirst.frc.team4711.robot.commands.DriveWithController;
-//import org.usfirst.frc.team4711.robot.commands.DropNShoot;
-//import org.usfirst.frc.team4711.robot.commands.RunTest;
+import org.usfirst.frc.team4711.robot.commands.RunRainMaker;
 
+//Import library/dependencies
+import org.usfirst.frc.team4711.robot.commands.CommandWithController;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+//Class declaration
 public class Robot extends IterativeRobot {
+	
+	//Command Objects
 	private Command autonomousCommand;
 	private Command teleopCommand;
 	
 	public void robotInit() {
-		//autonomousCommand = new DropNShoot();
-		teleopCommand = new DriveWithController();
+		autonomousCommand = new RunRainMaker();
+		teleopCommand = new CommandWithController();
 		//teleopCommand = new RunTest(RunTest.State.FREE, 0.0);
 	}
-	
+
 	public void teleopInit() {
 		if(autonomousCommand != null) 
 			autonomousCommand.cancel();

@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4711.robot.subsystems;
 
-import org.usfirst.frc.team4711.robot.commands.IntakeCommand;
 import org.usfirst.frc.team4711.robot.config.MotorSpeeds;
 import org.usfirst.frc.team4711.robot.config.RobotMap;
 
@@ -47,8 +46,6 @@ public class ClawSubsystem extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new IntakeCommand(0));
-
+		//setDefaultCommand(new IntakeCommand(0));
 	}
-
 }

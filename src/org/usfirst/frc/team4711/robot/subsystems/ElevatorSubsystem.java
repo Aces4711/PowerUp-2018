@@ -1,37 +1,49 @@
 package org.usfirst.frc.team4711.robot.subsystems;
 
+import org.usfirst.frc.team4711.robot.commands.CommandWithController;
 import org.usfirst.frc.team4711.robot.config.MotorSpeeds;
 import org.usfirst.frc.team4711.robot.config.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ElevatorSubsystem extends Subsystem {
-	private WPI_TalonSRX EMotor;
 	
-	private static ElevatorSubsystem instance;
+	private WPI_TalonSRX _motor;
+	
+	private static ElevatorSubsystem _instance;
 	
 	private ElevatorSubsystem () {
 		super("elevatorSubsystem");
 		
-		EMotor = new WPI_TalonSRX(RobotMap.ETalon);
+		_motor = new WPI_TalonSRX(RobotMap.ETalon);
+		_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		
+		//_motor.set(ControlMode.Position, 0);
+		//_motor.setSelectedSensorPosition(0, 0, 0);
+		
 	}
 	
 	public static ElevatorSubsystem getInstance(){
-		if(instance == null)
-			instance = new ElevatorSubsystem();
+		if(_instance == null)
+			_instance = new ElevatorSubsystem();
 		
-		return instance;
+		return _instance;
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-
+		//setDefaultCommand(new CommandWithController());
 	}
 	
 	public void setMotorSpeed(double moveValue){
-		EMotor.set(moveValue * MotorSpeeds.CLIMB_SPEED);
+		_motor.set(moveValue * MotorSpeeds.ELEVATOR_SPEED);
+	}
+	
+	public int getPosition() {
+		return _motor.getSelectedSensorPosition(0);
 	}
 }

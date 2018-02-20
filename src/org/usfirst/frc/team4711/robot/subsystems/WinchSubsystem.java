@@ -9,30 +9,30 @@ import org.usfirst.frc.team4711.robot.config.MotorSpeeds;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class ClimberSubsystem extends Subsystem {
+public class WinchSubsystem extends Subsystem {
 
-	private WPI_TalonSRX climber;
+	private WPI_TalonSRX winch;
 	
-	private static ClimberSubsystem instance;
+	private static WinchSubsystem instance;
 	
-	private ClimberSubsystem() {
+	private WinchSubsystem() {
 		super("climberSubsystem");
 		
-		climber = new WPI_TalonSRX(RobotMap.LEFT_CLIMB_CHANNEL);
+		winch = new WPI_TalonSRX(RobotMap.WINCH);
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
 	}
 	
-	public static ClimberSubsystem getInstance(){
+	public static WinchSubsystem getInstance(){
 		if(instance == null)
-			instance = new ClimberSubsystem();
+			instance = new WinchSubsystem();
 		
 		return instance;
 	}
 	
 	public void setMotorSpeed(double moveValue){
-		climber.set(moveValue * MotorSpeeds.CLIMB_SPEED);
+		winch.set(moveValue * MotorSpeeds.CLIMB_SPEED);
 	}
 }
