@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4711.robot.subsystems;
 
-import org.usfirst.frc.team4711.robot.commands.CommandWithController;
+//import org.usfirst.frc.team4711.robot.commands.CommandWithController;
 //import org.usfirst.frc.team4711.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team4711.robot.config.MotorSpeeds;
 import org.usfirst.frc.team4711.robot.config.RobotMap;
@@ -22,13 +22,13 @@ public class DriveTrain extends Subsystem {
 	private DriveTrain() {
 		super("driveSubsystem");
 		
-		WPI_TalonSRX left = new WPI_TalonSRX(RobotMap.BLTalon);
-		WPI_TalonSRX right = new WPI_TalonSRX(RobotMap.BRTalon);
+		WPI_TalonSRX left = new WPI_TalonSRX(RobotMap.FLTalon);
+		WPI_TalonSRX right = new WPI_TalonSRX(RobotMap.FRTalon);
 		
-		_leftWithEncoder = new WPI_TalonSRX(RobotMap.FLTalon);
+		_leftWithEncoder = new WPI_TalonSRX(RobotMap.BLTalon);
 		_leftWithEncoder.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 ;
-		_rightWithEncoder = new WPI_TalonSRX(RobotMap.FRTalon);
+		_rightWithEncoder = new WPI_TalonSRX(RobotMap.BRTalon);
 		_rightWithEncoder.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 	
 	    SpeedControllerGroup leftGroup = new SpeedControllerGroup(left, _leftWithEncoder);
@@ -64,7 +64,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public int getCurrentLeftPosition() {
-		return _rightWithEncoder.getSelectedSensorPosition(0);
+		return _leftWithEncoder.getSelectedSensorPosition(0);
 	}
 	
 	public void driveStraight(double moveValue){
@@ -77,7 +77,7 @@ public class DriveTrain extends Subsystem {
 		if(rightSpeed > leftSpeed)
 			rightMoveValue *= leftMoveValue / rightMoveValue;
 		else if(leftSpeed > rightSpeed)
-			leftMoveValue *= rightSpeed / leftSpeed;
+			leftMoveValue *= rightMoveValue / leftMoveValue;
 		
 		_wheels.tankDrive(rightMoveValue, leftMoveValue);
 		
@@ -93,7 +93,7 @@ public class DriveTrain extends Subsystem {
 		if(rightSpeed > leftSpeed)
 			rightMoveValue *= leftMoveValue / rightMoveValue;
 		else if(leftSpeed > rightSpeed)
-			leftMoveValue *= rightSpeed / leftSpeed;
+			leftMoveValue *= rightMoveValue / leftMoveValue;
 		
 		_wheels.tankDrive(leftMoveValue, -rightMoveValue);
 	}

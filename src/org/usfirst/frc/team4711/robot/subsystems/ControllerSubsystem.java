@@ -14,6 +14,7 @@ public class ControllerSubsystem extends Subsystem {
 	private JoystickButton intakeButton;
 	private JoystickButton ejectButton;
 	private JoystickButton winchButton;
+	private JoystickButton unwinchButton;
 
 	private static ControllerSubsystem instance;
 	
@@ -21,14 +22,16 @@ public class ControllerSubsystem extends Subsystem {
 		joystick = new Joystick(RobotMap.JOYSTICK_PORT);
 		
 		intakeButton = new JoystickButton(joystick, KeyMap.INTAKE);
-		intakeButton.whileHeld(new ClawCommand(1));
+		intakeButton.toggleWhenPressed(new ClawCommand(1));
 		
 		ejectButton = new JoystickButton(joystick, KeyMap.EJECT);
-		ejectButton.whileHeld(new ClawCommand(-1));
+		ejectButton.toggleWhenPressed(new ClawCommand(-1));
 		
 		winchButton = new JoystickButton(joystick, KeyMap.WINCH);
 		winchButton.toggleWhenPressed(new RunWinchCommand(1.0));
 		
+		unwinchButton = new JoystickButton(joystick, KeyMap.UN_WINCH);
+		unwinchButton.toggleWhenPressed(new RunWinchCommand(-1.0));
 	}
 	
 	@Override

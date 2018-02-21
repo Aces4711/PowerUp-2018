@@ -2,6 +2,7 @@ package org.usfirst.frc.team4711.robot.commands;
 
 import org.usfirst.frc.team4711.robot.config.RobotMap;
 import org.usfirst.frc.team4711.robot.subsystems.ControllerSubsystem;
+import org.usfirst.frc.team4711.robot.Utils;
 import org.usfirst.frc.team4711.robot.config.KeyMap;
 import org.usfirst.frc.team4711.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4711.robot.subsystems.ElevatorSubsystem;
@@ -40,7 +41,12 @@ public class CommandWithController extends Command {
     													-_controller.getController().getRawAxis(KeyMap.ACCEL_BACK):
     														0.0), _controller.getController().getRawAxis(RobotMap.AXIS_LEFT_X));
 
-    	_elevator.setMotorSpeed(-_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y));
+    	_elevator.setMotorSpeed(_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y));
+    	
+    	//testing logging
+    	System.out.println("left : " + _drive.getCurrentLeftPosition() + 
+    						", right : " + _drive.getCurrentRightPosition() +
+    						", elevator : " + Utils.convertPositionToInches(_elevator.getPosition(), RobotMap.ELEVATOR_WHEEL_DIAMETER));
     }
     
 	@Override

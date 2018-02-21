@@ -30,4 +30,11 @@ public class RobotMap {
 	public static final int Y = 4;
 	
 	public static final double DRIVE_WHEEL_DIAMETER = 3.94;
+	public static final double ELEVATOR_WHEEL_DIAMETER = 1.0;
+	
+	//Inches
+	public static final double ELEVATOR_HIGH_HIGHT = 66.5; 
+	public static final double ELEVATOR_MID_HIGHT = 24.0;
+	public static final double ELEVATOR_LOW_HIGHT = 12.0;
+	public static final double ELEVATOR_GROUND_HIGHT = 0.0;
 }
