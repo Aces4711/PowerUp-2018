@@ -8,6 +8,7 @@ import org.usfirst.frc.team4711.robot.config.RobotMap;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -17,10 +18,14 @@ public class DriveTrain extends Subsystem {
 	private WPI_TalonSRX _rightWithEncoder, _leftWithEncoder;
 	private DifferentialDrive _wheels;
 	
+	public ADXRS450_Gyro gyro;
+	
 	private static DriveTrain _instance;
 
 	private DriveTrain() {
 		super("driveSubsystem");
+		
+		gyro = new ADXRS450_Gyro();
 		
 		WPI_TalonSRX left = new WPI_TalonSRX(RobotMap.FLTalon);
 		WPI_TalonSRX right = new WPI_TalonSRX(RobotMap.FRTalon);
@@ -100,7 +105,5 @@ public class DriveTrain extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		//setDefaultCommand(new CommandWithController());
 	}
-
 }

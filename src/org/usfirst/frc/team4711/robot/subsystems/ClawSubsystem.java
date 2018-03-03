@@ -46,6 +46,5 @@ public class ClawSubsystem extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		//setDefaultCommand(new IntakeCommand(0));
 	}
 }

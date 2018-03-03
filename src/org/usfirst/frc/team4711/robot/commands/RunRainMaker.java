@@ -8,5 +8,6 @@ public class RunRainMaker extends CommandGroup {
     	System.out.println("Run Rainmaker!");
     	addSequential(new DriveFor(144.0));
     	addSequential(new DriveFor(-144.0));
+    	//addSequential(new TurnCommand(90));
     }
 }

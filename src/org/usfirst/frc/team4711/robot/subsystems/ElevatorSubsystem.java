@@ -49,7 +49,6 @@ public class ElevatorSubsystem extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		//setDefaultCommand(new CommandWithController());
 	}
 	
 	public void setMotorSpeed(double moveValue){

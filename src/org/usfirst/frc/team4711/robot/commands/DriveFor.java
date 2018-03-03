@@ -10,6 +10,8 @@ public class DriveFor extends Command {
 	private DriveTrain _drive;
 	
 	private double _disPosition;
+	private double _rightInitialPosition;
+	private double _leftInitialPosition;
 	
     public DriveFor(double disInches) {
     	_drive = DriveTrain.getInstance();
@@ -21,7 +23,8 @@ public class DriveFor extends Command {
     }
 
     protected void initialize() {
-    	_drive.resetEncoders();
+    	_leftInitialPosition = _drive.getCurrentLeftPosition();
+    	_rightInitialPosition = _drive.getCurrentRightPosition();
     	execute();
     }
 
@@ -32,8 +35,8 @@ public class DriveFor extends Command {
     protected boolean isFinished() {
         
 
-    	return (Math.abs(_drive.getCurrentLeftPosition()) >= Math.abs(_disPosition) && 
-    			Math.abs(_drive.getCurrentRightPosition()) >= Math.abs(_disPosition)) || 
+    	return (Math.abs(_drive.getCurrentLeftPosition() - _leftInitialPosition) >= Math.abs(_disPosition) && 
+    			Math.abs(_drive.getCurrentRightPosition() - _rightInitialPosition) >= Math.abs(_disPosition)) ||
     			isTimedOut();
     }
 
