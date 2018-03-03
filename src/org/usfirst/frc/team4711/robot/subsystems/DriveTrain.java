@@ -32,7 +32,6 @@ public class DriveTrain extends Subsystem {
 		
 		_leftWithEncoder = new WPI_TalonSRX(RobotMap.BLTalon);
 		_leftWithEncoder.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-;
 		_rightWithEncoder = new WPI_TalonSRX(RobotMap.BRTalon);
 		_rightWithEncoder.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 	

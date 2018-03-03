@@ -9,11 +9,9 @@ public class KeyMap {
 	public static final int EJECT = RobotMap.B;
 	public static final int WINCH = RobotMap.Y;
 	public static final int UN_WINCH = RobotMap.X;
-	/*
-	public static final int INTAKE_UNJAM = RobotMap.Y;
-	public static final int CONTINUOUS_LAUNCH = RobotMap.TRIGGER_LB;
-	public static final int DISTANCE_LAUNCH = RobotMap.TRIGGER_RB;
-	*/
+	//public static final int INTAKE_UNJAM = RobotMap.Y;
+	public static final int ELEVATOR_DOWN = RobotMap.TRIGGER_LB;
+	public static final int ELEVATOR_UP = RobotMap.TRIGGER_RB;
 	public static final int ACCEL_FORWARD = RobotMap.AXIS_TRIGGER_RT;
 	public static final int ACCEL_BACK = RobotMap.AXIS_TRIGGER_LT;
 	/*

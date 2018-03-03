@@ -21,6 +21,8 @@ public class RobotMap {
 	public static final int JOYSTICK_PORT = 0;
 	public static final int AXIS_TRIGGER_LT = 2;
 	public static final int AXIS_TRIGGER_RT = 3;
+	public static final int TRIGGER_LB = 5;
+	public static final int TRIGGER_RB = 6;
 	public static final int AXIS_LEFT_X = 0;
 	public static final int AXIS_RIGHT_Y = 5;
 	

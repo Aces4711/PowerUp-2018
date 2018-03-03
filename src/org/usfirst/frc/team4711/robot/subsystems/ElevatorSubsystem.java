@@ -7,9 +7,9 @@ import org.usfirst.frc.team4711.robot.config.RobotMap;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-public class ElevatorSubsystem extends Subsystem {
+public class ElevatorSubsystem extends PIDSubsystem {
 	public static enum HEIGHTS {
 		GROUND(Utils.convertInchesToPosition(RobotMap.ELEVATOR_GROUND_HIGHT, RobotMap.ELEVATOR_WHEEL_DIAMETER)), 
 		LOW(Utils.convertInchesToPosition(RobotMap.ELEVATOR_LOW_HIGHT, RobotMap.ELEVATOR_WHEEL_DIAMETER)), 
@@ -30,7 +30,10 @@ public class ElevatorSubsystem extends Subsystem {
 	private static ElevatorSubsystem _instance;
 	
 	private ElevatorSubsystem () {
-		super("elevatorSubsystem");
+		super("elevatorSubsystem", 0.0, 0.0, 0.0);
+		
+		setAbsoluteTolerance(1.0);
+		getPIDController().setContinuous(false);
 		
 		_motor = new WPI_TalonSRX(RobotMap.ETalon);
 		_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -59,7 +62,17 @@ public class ElevatorSubsystem extends Subsystem {
 		_motor.set(moveValue * MotorSpeeds.ELEVATOR_SPEED);
 	}
 	
-	public int getPosition() {
+	public double getPosition() {
 		return _motor.getSelectedSensorPosition(0);
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		return _motor.getSensorCollection().getQuadraturePosition();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		_motor.pidWrite(output);	
 	}
 }
