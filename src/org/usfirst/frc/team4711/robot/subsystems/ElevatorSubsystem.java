@@ -10,12 +10,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 public class ElevatorSubsystem extends PIDSubsystem {
+	/**
+	 * The height of the elevator in encoder ticks. Convert this to inches using the Utils class.
+	 *
+	 */
 	public static enum HEIGHTS {
-		GROUND(Utils.convertInchesToPosition(RobotMap.ELEVATOR_GROUND_HIGHT, RobotMap.ELEVATOR_WHEEL_DIAMETER)), 
-		LOW(Utils.convertInchesToPosition(RobotMap.ELEVATOR_LOW_HIGHT, RobotMap.ELEVATOR_WHEEL_DIAMETER)), 
-		MID(Utils.convertInchesToPosition(RobotMap.ELEVATOR_MID_HIGHT, RobotMap.ELEVATOR_WHEEL_DIAMETER)), 
+		GROUND(Utils.convertInchesToPosition(RobotMap.ELEVATOR_GROUND_HIGHT, RobotMap.ELEVATOR_WHEEL_DIAMETER)),
+		LOW(Utils.convertInchesToPosition(RobotMap.ELEVATOR_LOW_HIGHT, RobotMap.ELEVATOR_WHEEL_DIAMETER)),
+		MID(Utils.convertInchesToPosition(RobotMap.ELEVATOR_MID_HIGHT, RobotMap.ELEVATOR_WHEEL_DIAMETER)),
 		HIGH(Utils.convertInchesToPosition(RobotMap.ELEVATOR_HIGH_HIGHT, RobotMap.ELEVATOR_WHEEL_DIAMETER));
-		
+
 		private double _height;
 		private HEIGHTS(double height) {
 			_height = height;
@@ -23,45 +27,81 @@ public class ElevatorSubsystem extends PIDSubsystem {
 		public double getHeight() {
 			return _height;
 		}
+
+		/**
+		 * Find the next highest height, or if the maximum height is
+		 * passed, return the maximum.
+		 * @param other The current height
+		 * @return The next-highest height, if one exists. Otherwise, the argument.
+		 */
+		public HEIGHTS getNextHighestHeight(HEIGHTS current) {
+			// todo: This will throw an arrayindexoutofbounds exception if you're at the max height already
+			if (HEIGHTS.HIGH == current) {
+				System.out.println("Already at MAX hight!");
+				return current;
+			}
+
+			else {
+				int currentIndex = current.ordinal();
+				int nextIndex = currentIndex + 1;
+
+				return HEIGHTS.values()[nextIndex];
+				//return Math.min(HEIGHTS.values()[current.ordinal() + 1].getHeight(), HEIGHTS.HIGH.getHeight());
+			}
+		}
+
+		public HEIGHTS getNextLowestHeight(HEIGHTS current) {
+			if (HEIGHTS.GROUND == current) {
+				System.out.println("Already at LOWEST height!");
+				return current;
+			}
+			else {
+				int currentIndex = current.ordinal();
+				int nextIndex = currentIndex - 1;
+
+				return HEIGHTS.values()[nextIndex];
+			}
+		}
 	}
-	
+
 	private WPI_TalonSRX _motor;
-	
+
 	private static ElevatorSubsystem _instance;
-	
+
 	private ElevatorSubsystem () {
 		super("elevatorSubsystem", 0.0, 0.0, 0.0);
-		
+
 		setAbsoluteTolerance(1.0);
 		getPIDController().setContinuous(false);
-		
+
 		_motor = new WPI_TalonSRX(RobotMap.ETalon);
 		_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
         _motor.setSelectedSensorPosition(0, 0, 0);
-		
+
 		//_motor.set(ControlMode.Position, 0);
-		
+
 	}
-	
+
 	public static ElevatorSubsystem getInstance(){
 		if(_instance == null)
 			_instance = new ElevatorSubsystem();
-		
+
 		return _instance;
 	}
 
 	@Override
 	protected void initDefaultCommand() {
 	}
-	
+
 	public void setMotorSpeed(double moveValue){
 		if((moveValue > 0.0 && getPosition() <= ElevatorSubsystem.HEIGHTS.GROUND.getHeight()) ||
 		   (moveValue < 0.0 && getPosition() >= ElevatorSubsystem.HEIGHTS.HIGH.getHeight()))
 			moveValue = 0.0;
-		
+
 		_motor.set(moveValue * MotorSpeeds.ELEVATOR_SPEED);
 	}
-	
+
+	@Override
 	public double getPosition() {
 		return _motor.getSelectedSensorPosition(0);
 	}
@@ -73,6 +113,6 @@ public class ElevatorSubsystem extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		_motor.pidWrite(output);	
+		_motor.pidWrite(output);
 	}
 }
