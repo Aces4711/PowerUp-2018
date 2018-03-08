@@ -24,6 +24,11 @@ public class ElevatorSubsystem extends PIDSubsystem {
 		private HEIGHTS(double height) {
 			_height = height;
 		}
+
+		/**
+		 * Return the equivalent height in encoder ticks
+		 * @return The current position in encoder ticks. 4 ticks = 1 revolution
+		 */
 		public double getHeight() {
 			return _height;
 		}
@@ -34,29 +39,27 @@ public class ElevatorSubsystem extends PIDSubsystem {
 		 * @param other The current height
 		 * @return The next-highest height, if one exists. Otherwise, the argument.
 		 */
-		public HEIGHTS getNextHighestHeight(HEIGHTS current) {
-			// todo: This will throw an arrayindexoutofbounds exception if you're at the max height already
-			if (HEIGHTS.HIGH == current) {
+		public HEIGHTS getNextHighestHeight() {
+			if (HEIGHTS.HIGH == this) {
 				System.out.println("Already at MAX hight!");
-				return current;
+				return this;
 			}
 
 			else {
-				int currentIndex = current.ordinal();
+				int currentIndex = this.ordinal();
 				int nextIndex = currentIndex + 1;
 
 				return HEIGHTS.values()[nextIndex];
-				//return Math.min(HEIGHTS.values()[current.ordinal() + 1].getHeight(), HEIGHTS.HIGH.getHeight());
 			}
 		}
 
-		public HEIGHTS getNextLowestHeight(HEIGHTS current) {
-			if (HEIGHTS.GROUND == current) {
+		public HEIGHTS getNextLowestHeight() {
+			if (HEIGHTS.GROUND == this) {
 				System.out.println("Already at LOWEST height!");
-				return current;
+				return this;
 			}
 			else {
-				int currentIndex = current.ordinal();
+				int currentIndex = this.ordinal();
 				int nextIndex = currentIndex - 1;
 
 				return HEIGHTS.values()[nextIndex];
@@ -66,12 +69,14 @@ public class ElevatorSubsystem extends PIDSubsystem {
 
 	private WPI_TalonSRX _motor;
 
+	private HEIGHTS currentPosition;
+
 	private static ElevatorSubsystem _instance;
 
 	private ElevatorSubsystem () {
-		super("elevatorSubsystem", 0.0, 0.0, 0.0);
+		super("elevatorSubsystem", 0.2, 0.0, 0.0);
 
-		setAbsoluteTolerance(1.0);
+		setAbsoluteTolerance(1.0); // one inch allowable error
 		getPIDController().setContinuous(false);
 
 		_motor = new WPI_TalonSRX(RobotMap.ETalon);
@@ -101,6 +106,16 @@ public class ElevatorSubsystem extends PIDSubsystem {
 		_motor.set(moveValue * MotorSpeeds.ELEVATOR_SPEED);
 	}
 
+	public HEIGHTS getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public void setCurrentPosition(HEIGHTS newPosition){
+		currentPosition = newPosition;
+		setSetpoint(newPosition.getHeight());
+	}
+
+	// Override from PIDSubsystem
 	@Override
 	public double getPosition() {
 		return _motor.getSelectedSensorPosition(0);
