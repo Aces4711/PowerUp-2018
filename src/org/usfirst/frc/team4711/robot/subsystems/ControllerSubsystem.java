@@ -18,7 +18,6 @@ public class ControllerSubsystem extends Subsystem {
 	private JoystickButton ejectButton;
 	private JoystickButton winchButton;
 	private JoystickButton unwinchButton;
-	private JoystickButton elevatorUpButton;
 
 	private static ControllerSubsystem instance;
 	
@@ -36,12 +35,6 @@ public class ControllerSubsystem extends Subsystem {
 		
 		unwinchButton = new JoystickButton(joystick, KeyMap.UN_WINCH);
 		unwinchButton.toggleWhenPressed(new RunWinchCommand(-1.0));
-		
-		elevatorUpButton = new JoystickButton(joystick, KeyMap.ELEVATOR_UP);
-		elevatorUpButton.toggleWhenPressed(new ElevatorUpCommand(1));
-		
-		elevatorDownButton = new JoystickButton(joystick, KeyMap.ELEVATOR_DOWN);
-		elevatorDownButton.toggleWhenPressed(new ElevatorDownCommand(1));
 	}
 	
 	@Override
