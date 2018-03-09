@@ -6,6 +6,8 @@ import org.usfirst.frc.team4711.robot.config.RobotMap;
 import org.usfirst.frc.team4711.robot.subsystems.ControllerSubsystem;
 import org.usfirst.frc.team4711.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4711.robot.subsystems.ElevatorSubsystem;
+import org.usfirst.frc.team4711.robot.subsystems.RobotEyeSubsystem;
+import org.usfirst.frc.team4711.robot.subsystems.StartPositionSwitchSubsystem;
 
 //import edu.wpi.first.wpilibj.Joystick.AxisType;
 //import edu.wpi.first.wpilibj.command.Command;
@@ -16,9 +18,10 @@ public class CommandWithController extends PIDCommand {
 	private ControllerSubsystem _controller;
 	private DriveTrain _drive;
 	private ElevatorSubsystem _elevator;
+	private RobotEyeSubsystem _eye;
 
 	public CommandWithController() {
-		super("Drive With Joystick", 0, 0, 0);
+		super("Drive With Controller", .425, .001, .001);
 
 		_controller = ControllerSubsystem.getInstance();
 		requires(_controller);
@@ -28,11 +31,14 @@ public class CommandWithController extends PIDCommand {
 
 		_elevator = ElevatorSubsystem.getInstance();
 		requires(_elevator);
+		
+		_eye = RobotEyeSubsystem.getInstance();
+		requires(_eye);
 	}
 
 	@Override
 	protected void initialize() {
-
+		_eye.startVisionFront();
     }
 
 	/**
@@ -40,7 +46,7 @@ public class CommandWithController extends PIDCommand {
 	 */
     @Override
 	protected void execute() {
-    	double driveSpeed = _controller.getController().getRawAxis(KeyMap.ACCEL_FORWARD) +
+    	double driveSpeed = _controller.getController().getRawAxis(KeyMap.ACCEL_FORWARD) -
     			_controller.getController().getRawAxis(KeyMap.ACCEL_BACK);
 		double driveAngle = _controller.getController().getRawAxis(RobotMap.AXIS_LEFT_X);
 
@@ -52,16 +58,16 @@ public class CommandWithController extends PIDCommand {
     		} else {
     			setSetpoint(ElevatorSubsystem.HEIGHTS.HIGH.getHeight());
     		}
-    		getPIDController().enable();
     	} else {
-    		getPIDController().disable(); 
-    		_elevator.setMotorSpeed(0);
+    		setSetpoint(_elevator.getPosition());
     	}
     	
     	//testing logging
-    	System.out.println("left : " + _drive.getCurrentLeftPosition() +
-    						", right : " + _drive.getCurrentRightPosition() +
-    						", elevator : " + Utils.convertPositionToInches(_elevator.getPosition(), RobotMap.ELEVATOR_WHEEL_DIAMETER));
+
+//		System.out.println("Start Position : " + StartPositionSwitchSubsystem.getInstance().getStartPosition());
+//    	System.out.println("left : " + _drive.getCurrentLeftPosition() +
+//    						", right : " + _drive.getCurrentRightPosition() +
+//    						", elevator : " + Utils.convertPositionToInches(_elevator.getPosition(), RobotMap.ELEVATOR_WHEEL_DIAMETER));
     }
 
 	@Override
@@ -73,6 +79,7 @@ public class CommandWithController extends PIDCommand {
     protected void end() {
 		_drive.stop();
 		_elevator.setMotorSpeed(0.0);
+		_eye.endVisionFront();
     }
 
 	@Override
@@ -87,7 +94,7 @@ public class CommandWithController extends PIDCommand {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		_elevator.setMotorSpeed(_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y) * output);
+		_elevator.setMotorSpeed(_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y) * Math.abs(output));
 	}
 
 }

@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4711.robot.commands;
 
 import org.usfirst.frc.team4711.robot.subsystems.ClawSubsystem;
-import org.usfirst.frc.team4711.robot.Utils;
-import org.usfirst.frc.team4711.robot.config.MotorSpeeds;
-import org.usfirst.frc.team4711.robot.config.RobotMap;
+//import org.usfirst.frc.team4711.robot.Utils;
+//import org.usfirst.frc.team4711.robot.config.MotorSpeeds;
+//import org.usfirst.frc.team4711.robot.config.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 

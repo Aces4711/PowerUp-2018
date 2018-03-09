@@ -5,45 +5,49 @@ import org.usfirst.frc.team4711.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnCommand extends Command {
-	private double angle;
-	private double setPoint;
+
 	
-	private DriveTrain DriveTrain;
+	private DriveTrain _driveTrain;
+	private double _angle;
+	private double _dir;
 	
 	public TurnCommand(double angle) {
 		super("TurnCommand");
 		
-		this.angle = angle;
+		_angle = Math.abs(angle);
+		_dir = angle > 0 ? 1.0 : -1.0;
 		
-		DriveTrain = DriveTrain.getInstance();
-		requires(DriveTrain);
+		_driveTrain = DriveTrain.getInstance();
+		requires(_driveTrain);
+		 
 		
-		setTimeout(10 * Math.abs(angle / 360));
+		setTimeout(5 * Math.abs(angle / 360));
 	}
 	
 	@Override
 	protected void initialize() {
-		//DriveTrain.setRotateBy(angle);
-		//used to start the PID Closed Loop
-		//driveSubsystem.enable();
+		_driveTrain.gyro.reset();
+		execute();
 	}
 	
 	@Override
 	protected void execute() {
-		DriveTrain.turnOnAxis(angle > 0 ? 1.0 : -1.0);
-
+		_driveTrain.turnOnAxis(_dir);
 	}
 	
 	@Override
 	protected boolean isFinished() {
-		return DriveTrain.gyro.getAngle() >= setPoint || isTimedOut();
+		
+		return (_dir > 0 ? 
+				_driveTrain.gyro.getAngle() >= _angle :
+				_driveTrain.gyro.getAngle() <= 360 - _angle) || isTimedOut();
 		//Robot.gyro.getAngle() >= setPoint || isTimedOut();	
 		//Math.abs(DriveTrain.getSetpoint() - DriveTrain.getPosition()) < .1 || isTimedOut();
 	}
 
 	@Override
     protected void end() {
-        DriveTrain.stop();
+        _driveTrain.stop();
     }
 	
 	@Override

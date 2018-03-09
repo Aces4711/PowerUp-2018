@@ -1,14 +1,15 @@
 package org.usfirst.frc.team4711.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc.team4711.robot.commands.RunCenterOrSidePositions;
+import org.usfirst.frc.team4711.robot.commands.LeftPositionsCommand;
+import org.usfirst.frc.team4711.robot.commands.RightPositionsCommands;
 
 public class RunRainMaker extends CommandGroup {
-
+	
     public RunRainMaker() {
-    	System.out.println("Run Rainmaker!");
-    	addSequential(new DriveFor(144.0));
-    	addSequential(new DriveFor(-144.0));
-    	addSequential(new TurnCommand(90));
-    	addSequential(new ClawCommand(-1));
+    	addSequential(new RunCenterOrSidePositions(new CenterPositionCommands(), 
+				new RunLeftOrRightPositions(new LeftPositionsCommand(), 
+											new RightPositionsCommands())));
     }
 }

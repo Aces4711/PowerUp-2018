@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4711.robot.subsystems;
 
 import org.usfirst.frc.team4711.robot.commands.ClawCommand;
-import org.usfirst.frc.team4711.robot.commands.ElevatorDownCommand;
-import org.usfirst.frc.team4711.robot.commands.ElevatorUpCommand;
-import org.usfirst.frc.team4711.robot.commands.RunElevatorCommand;
+//import org.usfirst.frc.team4711.robot.commands.ElevatorDownCommand;
+//import org.usfirst.frc.team4711.robot.commands.ElevatorUpCommand;
+//import org.usfirst.frc.team4711.robot.commands.RunElevatorCommand;
 import org.usfirst.frc.team4711.robot.commands.RunWinchCommand;
 import org.usfirst.frc.team4711.robot.config.KeyMap;
 import org.usfirst.frc.team4711.robot.config.RobotMap;

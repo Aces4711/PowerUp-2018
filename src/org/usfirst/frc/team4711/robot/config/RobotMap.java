@@ -37,6 +37,16 @@ public class RobotMap {
 	//Inches
 	public static final double ELEVATOR_HIGH_HIGHT = 66.5; 
 	public static final double ELEVATOR_MID_HIGHT = 24.0;
-	public static final double ELEVATOR_LOW_HIGHT = 12.0;
+	public static final double ELEVATOR_LOW_HIGHT = 19.0;
 	public static final double ELEVATOR_GROUND_HIGHT = 0.0;
+	
+	// Auto selection switch
+	public static final int LEFT_DIO_SWITCH = 0;
+	public static final int RIGHT_DIO_SWITCH = 1;
+	
+
+	public static final int CAMERA_FRONT = 1;
+	//only can use 160x120, 320x240, 640x480
+	public static final int CAMERA_IMG_WIDTH = 320;
+	public static final int CAMERA_IMG_HEIGHT = 240;
 }

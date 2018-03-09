@@ -3,6 +3,7 @@ package org.usfirst.frc.team4711.robot;
 
 import org.usfirst.frc.team4711.robot.commands.RunRainMaker;
 import org.usfirst.frc.team4711.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4711.robot.subsystems.StartPositionSwitchSubsystem;
 //Import library/dependencies
 import org.usfirst.frc.team4711.robot.commands.CommandWithController;
 

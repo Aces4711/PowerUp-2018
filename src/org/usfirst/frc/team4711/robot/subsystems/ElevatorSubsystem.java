@@ -8,8 +8,9 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class ElevatorSubsystem extends PIDSubsystem {
+public class ElevatorSubsystem extends Subsystem {
 	/**
 	 * The height of the elevator in encoder ticks. Convert this to inches using the Utils class.
 	 *
@@ -32,39 +33,6 @@ public class ElevatorSubsystem extends PIDSubsystem {
 		public double getHeight() {
 			return _height;
 		}
-
-		/**
-		 * Find the next highest height, or if the maximum height is
-		 * passed, return the maximum.
-		 * @param other The current height
-		 * @return The next-highest height, if one exists. Otherwise, the argument.
-		 */
-		public HEIGHTS getNextHighestHeight() {
-			if (HEIGHTS.HIGH == this) {
-				System.out.println("Already at MAX hight!");
-				return this;
-			}
-
-			else {
-				int currentIndex = this.ordinal();
-				int nextIndex = currentIndex + 1;
-
-				return HEIGHTS.values()[nextIndex];
-			}
-		}
-
-		public HEIGHTS getNextLowestHeight() {
-			if (HEIGHTS.GROUND == this) {
-				System.out.println("Already at LOWEST height!");
-				return this;
-			}
-			else {
-				int currentIndex = this.ordinal();
-				int nextIndex = currentIndex - 1;
-
-				return HEIGHTS.values()[nextIndex];
-			}
-		}
 	}
 
 	private WPI_TalonSRX _motor;
@@ -74,17 +42,15 @@ public class ElevatorSubsystem extends PIDSubsystem {
 	private static ElevatorSubsystem _instance;
 
 	private ElevatorSubsystem () {
-		super("elevatorSubsystem", 0.2, 0.0, 0.0);
-
-		setAbsoluteTolerance(1.0); // one inch allowable error
-		getPIDController().setContinuous(false);
+		super("elevatorSubsystem");
 
 		_motor = new WPI_TalonSRX(RobotMap.ETalon);
 		_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-        _motor.setSelectedSensorPosition(0, 0, 0);
-
-		//_motor.set(ControlMode.Position, 0);
-
+		int absolute = _motor.getSensorCollection().getPulseWidthPosition() & 0xff;
+        _motor.setSelectedSensorPosition(absolute, 0, 0);
+        
+        _motor.setInverted(false);
+        //_motor.setSensorPhase(true);
 	}
 
 	public static ElevatorSubsystem getInstance(){
@@ -105,29 +71,29 @@ public class ElevatorSubsystem extends PIDSubsystem {
 
 		_motor.set(moveValue * MotorSpeeds.ELEVATOR_SPEED);
 	}
-
-	public HEIGHTS getCurrentPosition() {
-		return currentPosition;
-	}
-
-	public void setCurrentPosition(HEIGHTS newPosition){
-		currentPosition = newPosition;
-		setSetpoint(newPosition.getHeight());
-	}
+//
+//	public HEIGHTS getCurrentPosition() {
+//		return currentPosition;
+//	}
+//
+//	public void setCurrentPosition(HEIGHTS newPosition){
+//		currentPosition = newPosition;
+//		//setSetpoint(newPosition.getHeight());
+//	}
 
 	// Override from PIDSubsystem
-	@Override
+	
 	public double getPosition() {
 		return _motor.getSelectedSensorPosition(0);
 	}
-
-	@Override
-	protected double returnPIDInput() {
-		return _motor.getSensorCollection().getQuadraturePosition();
-	}
-
-	@Override
-	protected void usePIDOutput(double output) {
-		_motor.pidWrite(output);
-	}
+//
+//	@Override
+//	protected double returnPIDInput() {
+//		return _motor.getSensorCollection().getQuadraturePosition();
+//	}
+//
+//	@Override
+//	protected void usePIDOutput(double output) {
+//		_motor.pidWrite(output);
+//	}
 }
