@@ -15,7 +15,7 @@ public class TurnCommand extends Command {
 		super("TurnCommand");
 		
 		_angle = Math.abs(angle);
-		_dir = angle > 0 ? 1.0 : -1.0;
+		_dir = angle > 0 ? 0.5 : -0.5;
 		
 		_driveTrain = DriveTrain.getInstance();
 		requires(_driveTrain);
@@ -26,13 +26,14 @@ public class TurnCommand extends Command {
 	
 	@Override
 	protected void initialize() {
-		_driveTrain.gyro.reset();
+		//_driveTrain.gyro.reset();
 		execute();
 	}
 	
 	@Override
 	protected void execute() {
 		_driveTrain.turnOnAxis(_dir);
+		System.out.println(_driveTrain.gyro.getAngle());
 	}
 	
 	@Override

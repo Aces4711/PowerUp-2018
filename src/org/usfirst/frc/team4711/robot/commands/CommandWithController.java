@@ -1,13 +1,11 @@
 package org.usfirst.frc.team4711.robot.commands;
 
-import org.usfirst.frc.team4711.robot.Utils;
 import org.usfirst.frc.team4711.robot.config.KeyMap;
 import org.usfirst.frc.team4711.robot.config.RobotMap;
 import org.usfirst.frc.team4711.robot.subsystems.ControllerSubsystem;
 import org.usfirst.frc.team4711.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4711.robot.subsystems.ElevatorSubsystem;
 import org.usfirst.frc.team4711.robot.subsystems.RobotEyeSubsystem;
-import org.usfirst.frc.team4711.robot.subsystems.StartPositionSwitchSubsystem;
 
 //import edu.wpi.first.wpilibj.Joystick.AxisType;
 //import edu.wpi.first.wpilibj.command.Command;
@@ -61,6 +59,7 @@ public class CommandWithController extends PIDCommand {
     	} else {
     		setSetpoint(_elevator.getPosition());
     	}
+    	System.out.println(_drive.gyro.getAngle());
     	
     	//testing logging
 

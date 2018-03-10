@@ -8,6 +8,6 @@ public class CenterPositionCommands extends CommandGroup {
 	public CenterPositionCommands() {
 		addSequential(new DriveFor(90));
 		addSequential(new RunElevatorCommand(ElevatorSubsystem.HEIGHTS.MID));
-		addSequential(new ClawCommand(-1));
+		addSequential(new ClawCommand(-0.5));
 	}
 }

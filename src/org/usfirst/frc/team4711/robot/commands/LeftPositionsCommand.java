@@ -11,6 +11,11 @@ public class LeftPositionsCommand extends CommandGroup {
     	addSequential(new RunElevatorCommand(ElevatorSubsystem.HEIGHTS.HIGH));
     	addSequential(new DriveFor(200));
     	addSequential(new TurnCommand(45));
-    	addSequential(new ClawCommand(-1));
+    	addSequential(new ClawCommand(-0.5));
+    	
+    	/*
+    	 * addSequential(new TurnCommand(90));
+    	*/
+    	 
     }
 }
