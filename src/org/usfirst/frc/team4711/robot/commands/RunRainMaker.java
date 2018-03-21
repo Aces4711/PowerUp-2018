@@ -7,9 +7,9 @@ import org.usfirst.frc.team4711.robot.commands.RightPositionsCommands;
 
 public class RunRainMaker extends CommandGroup {
 	
-    public RunRainMaker() {
-    	addSequential(new RunCenterOrSidePositions(new CenterPositionCommands(), 
-				new RunLeftOrRightPositions(new LeftPositionsCommand(), 
-											new RightPositionsCommands())));
+    public RunRainMaker(char switchConfiguration) {
+    	addSequential(new RunCenterOrSidePositions(new CenterPositionCommands(switchConfiguration), 
+				new RunLeftOrRightPositions(new LeftPositionsCommand(switchConfiguration), 
+											new RightPositionsCommands(switchConfiguration))));
     }
 }

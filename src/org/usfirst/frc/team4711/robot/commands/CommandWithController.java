@@ -52,14 +52,20 @@ public class CommandWithController extends PIDCommand {
 
     	if(Math.abs(_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y)) >= 0.1) {
     		if (_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y) < 0) {
-    			setSetpoint(ElevatorSubsystem.HEIGHTS.GROUND.getHeight());
+    			_elevator.setMotorSpeed(-0.7);
+    			//setSetpoint(ElevatorSubsystem.HEIGHTS.GROUND.getHeight());
+    			System.out.println("Setpoint: " + ElevatorSubsystem.HEIGHTS.GROUND.getHeight());
     		} else {
-    			setSetpoint(ElevatorSubsystem.HEIGHTS.HIGH.getHeight());
+    			_elevator.setMotorSpeed(.7);
+    			//setSetpoint(ElevatorSubsystem.HEIGHTS.HIGH.getHeight());
+    			System.out.println("Setpoint: " + ElevatorSubsystem.HEIGHTS.HIGH.getHeight());
     		}
     	} else {
     		setSetpoint(_elevator.getPosition());
     	}
-    	System.out.println(_drive.gyro.getAngle());
+    	System.out.println("Elevator encoder position: " + _elevator.getPosition());
+    	
+    	//System.out.println(_drive.gyro.getAngle());
     	
     	//testing logging
 

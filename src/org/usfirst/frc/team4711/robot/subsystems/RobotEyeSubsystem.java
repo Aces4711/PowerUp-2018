@@ -38,7 +38,7 @@ public class RobotEyeSubsystem extends Subsystem {
 	private RobotEyeSubsystem(){
 		super("robotEyeSubsystem");
 
-		UsbCamera cameraFront = CameraServer.getInstance().startAutomaticCapture(RobotMap.CAMERA_FRONT);
+		UsbCamera cameraFront = CameraServer.getInstance().startAutomaticCapture("cam0", RobotMap.CAMERA_FRONT);
 		cameraFront.setResolution(RobotMap.CAMERA_IMG_WIDTH, RobotMap.CAMERA_IMG_HEIGHT);
 		cameraFront.setBrightness(25);
 		

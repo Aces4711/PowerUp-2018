@@ -45,7 +45,7 @@ public class RobotMap {
 	public static final int RIGHT_DIO_SWITCH = 1;
 	
 
-	public static final int CAMERA_FRONT = 1;
+	public static final int CAMERA_FRONT = 0;
 	//only can use 160x120, 320x240, 640x480
 	public static final int CAMERA_IMG_WIDTH = 320;
 	public static final int CAMERA_IMG_HEIGHT = 240;

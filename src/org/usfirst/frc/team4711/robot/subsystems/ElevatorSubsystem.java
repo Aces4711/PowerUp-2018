@@ -8,9 +8,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class ElevatorSubsystem extends Subsystem {
+public class ElevatorSubsystem extends PIDSubsystem {
 	/**
 	 * The height of the elevator in encoder ticks. Convert this to inches using the Utils class.
 	 *
@@ -42,7 +41,7 @@ public class ElevatorSubsystem extends Subsystem {
 	private static ElevatorSubsystem _instance;
 
 	private ElevatorSubsystem () {
-		super("elevatorSubsystem");
+		super("elevatorSubsystem", 0, 0, 0);
 
 		_motor = new WPI_TalonSRX(RobotMap.ETalon);
 		_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -68,32 +67,32 @@ public class ElevatorSubsystem extends Subsystem {
 		if((moveValue > 0.0 && getPosition() <= ElevatorSubsystem.HEIGHTS.GROUND.getHeight()) ||
 		   (moveValue < 0.0 && getPosition() >= ElevatorSubsystem.HEIGHTS.HIGH.getHeight()))
 			moveValue = 0.0;
-
+			
 		_motor.set(moveValue * MotorSpeeds.ELEVATOR_SPEED);
 	}
-//
-//	public HEIGHTS getCurrentPosition() {
-//		return currentPosition;
-//	}
-//
-//	public void setCurrentPosition(HEIGHTS newPosition){
-//		currentPosition = newPosition;
-//		//setSetpoint(newPosition.getHeight());
-//	}
+
+	public HEIGHTS getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public void setCurrentPosition(HEIGHTS newPosition){
+		currentPosition = newPosition;
+		//setSetpoint(newPosition.getHeight());
+	}
 
 	// Override from PIDSubsystem
 	
 	public double getPosition() {
 		return _motor.getSelectedSensorPosition(0);
 	}
-//
-//	@Override
-//	protected double returnPIDInput() {
-//		return _motor.getSensorCollection().getQuadraturePosition();
-//	}
-//
-//	@Override
-//	protected void usePIDOutput(double output) {
-//		_motor.pidWrite(output);
-//	}
+
+	@Override
+	protected double returnPIDInput() {
+		return _motor.getSensorCollection().getQuadraturePosition();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		_motor.pidWrite(output);
+	}
 }
