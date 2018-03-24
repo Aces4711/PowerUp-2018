@@ -34,14 +34,14 @@ public class ElevatorSubsystem extends PIDSubsystem {
 		}
 	}
 
-	private WPI_TalonSRX _motor;
+	public WPI_TalonSRX _motor;
 
 	private HEIGHTS currentPosition;
 
 	private static ElevatorSubsystem _instance;
 
 	private ElevatorSubsystem () {
-		super("elevatorSubsystem", 0, 0, 0);
+		super("elevatorSubsystem", 2, 0, 1);
 
 		_motor = new WPI_TalonSRX(RobotMap.ETalon);
 		_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -64,6 +64,7 @@ public class ElevatorSubsystem extends PIDSubsystem {
 	}
 
 	public void setMotorSpeed(double moveValue){
+		//Soft locks on the high and low positions of the elevator setpoint system
 		if((moveValue > 0.0 && getPosition() <= ElevatorSubsystem.HEIGHTS.GROUND.getHeight()) ||
 		   (moveValue < 0.0 && getPosition() >= ElevatorSubsystem.HEIGHTS.HIGH.getHeight()))
 			moveValue = 0.0;
@@ -77,10 +78,10 @@ public class ElevatorSubsystem extends PIDSubsystem {
 
 	public void setCurrentPosition(HEIGHTS newPosition){
 		currentPosition = newPosition;
-		//setSetpoint(newPosition.getHeight());
+		setSetpoint(newPosition.getHeight());
 	}
 
-	// Override from PIDSubsystem
+	//Override from PIDSubsystem
 	
 	public double getPosition() {
 		return _motor.getSelectedSensorPosition(0);

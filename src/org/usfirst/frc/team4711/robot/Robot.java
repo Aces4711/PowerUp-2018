@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("autonomousInit entered loop...");
 			String tryPlateConfiguration = DriverStation.getInstance().getGameSpecificMessage();
 			if (tryPlateConfiguration.length() > 0)
-				plateConfiguration = tryPlateConfiguration;
+				plateConfiguration = tryPlateConfiguration; 
 		}
 		System.out.println("autonomousInit exited loop. plateConfiguration: " + plateConfiguration);
 		

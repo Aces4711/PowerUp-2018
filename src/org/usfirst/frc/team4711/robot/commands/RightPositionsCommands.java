@@ -13,7 +13,7 @@ public class RightPositionsCommands extends CommandGroup {
     	// if close switch is on the right (like we are)
     	if (switchConfiguration == 'R') {
     		addSequential(new DriveFor(128));
-			//addSequential(new TurnCommand(225)); // because -90 would be too easy!
+			addSequential(new TurnCommand(-90)); // because -90 would be too easy!
 			//addSequential(new RunElevatorCommand(ElevatorSubsystem.HEIGHTS.MID));
 			//addSequential(new ClawCommand(-0.5));
     	}
@@ -21,7 +21,7 @@ public class RightPositionsCommands extends CommandGroup {
     		addSequential(new DriveFor(200));
     	}
     	else {
-    		// bad robot! How!??
+    		//Bad robot! How!??
     		System.out.println("Encountered unexpected values in plate configuration.");
     	}
     }

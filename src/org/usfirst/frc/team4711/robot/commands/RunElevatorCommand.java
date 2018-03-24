@@ -4,7 +4,7 @@ import org.usfirst.frc.team4711.robot.subsystems.ElevatorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RunElevatorCommand extends Command{
+public class RunElevatorCommand extends Command {
 	private ElevatorSubsystem _elevator;
 	
 	private double _dir;

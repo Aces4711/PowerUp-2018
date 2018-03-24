@@ -21,7 +21,8 @@ public class TurnCommand extends Command {
 		requires(_driveTrain);
 		 
 		
-		setTimeout(5 * Math.abs(angle / 360));
+		setTimeout(5);
+		//5	* Math.abs(angle / 360)
 	}
 	
 	@Override

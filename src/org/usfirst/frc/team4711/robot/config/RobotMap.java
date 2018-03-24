@@ -13,10 +13,10 @@ public class RobotMap {
 	public static final int FRTalon = 1;
 	public static final int BLTalon = 2;
 	public static final int BRTalon = 3;
-	public static final int ETalon = 8;
+	public static final int ETalon = 5; //8
 	public static final int LCTalon = 6;
 	public static final int RCTalon = 7;
-	public static final int WINCH = 5;
+	public static final int WINCH = 8; //5
 	
 	public static final int JOYSTICK_PORT = 0;
 	public static final int AXIS_TRIGGER_LT = 2;
