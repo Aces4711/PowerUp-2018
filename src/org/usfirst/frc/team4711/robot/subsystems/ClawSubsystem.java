@@ -5,6 +5,7 @@ import org.usfirst.frc.team4711.robot.config.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ClawSubsystem extends Subsystem {
@@ -34,8 +35,13 @@ public class ClawSubsystem extends Subsystem {
 	 */
 	
 	public void setMotorSpeed(double moveValue){
-		LCMotor.set(-moveValue * MotorSpeeds.CLAW_SPEED);
-		RCMotor.set(-moveValue * MotorSpeeds.CLAW_SPEED);
+		if(DriverStation.getInstance().isOperatorControl()) 
+			moveValue *= MotorSpeeds.TELEOP_MULTIPLIER;
+		else
+			moveValue *= MotorSpeeds.AUTONOMOUS_MULTIPLIER;
+		
+		LCMotor.set(moveValue * MotorSpeeds.CLAW_SPEED);
+		RCMotor.set(moveValue * MotorSpeeds.CLAW_SPEED);
 		
 	}
 	

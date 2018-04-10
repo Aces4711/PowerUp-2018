@@ -22,8 +22,12 @@ public class ClawCommand extends Command {
 	
 	@Override
 	protected void initialize() {
-		clawSubsystem.setMotorSpeed(motorSpeed);
+	   	execute();
 	}
+	
+    protected void execute() {
+    	clawSubsystem.setMotorSpeed(motorSpeed);
+    }
 	
 	@Override
 	protected boolean isFinished() {

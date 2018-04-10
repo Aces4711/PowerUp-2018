@@ -22,7 +22,7 @@ public class RunElevatorCommand extends Command {
 	
 	@Override
 	protected void initialize() {
-		_dir = _elevator.getPosition() < _position? -1.0 : 1.0;
+		_dir = _elevator.getPosition() < _position? 1.0 : -1.0;
 		execute();
 	}
 	
@@ -33,7 +33,7 @@ public class RunElevatorCommand extends Command {
 	@Override
 	protected boolean isFinished() {
 		//System.out.println("_position : " + _position + "_position Inches : " + Utils.convertPositionToInches(_position, RobotMap.ELEVATOR_WHEEL_DIAMETER) + ", _dir : " + _dir + ", _elevator.getPosition() : " + _elevator.getPosition());
-		return ((_dir > 0.0) ? _elevator.getPosition() <=  _position:
+		return ((_dir < 0.0) ? _elevator.getPosition() <=  _position:
 							  _elevator.getPosition() >=  _position) ||
 				isTimedOut();
 	}

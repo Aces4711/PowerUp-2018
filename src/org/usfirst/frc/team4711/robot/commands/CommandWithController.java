@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4711.robot.commands;
 
+import org.usfirst.frc.team4711.robot.Utils;
 import org.usfirst.frc.team4711.robot.config.KeyMap;
 import org.usfirst.frc.team4711.robot.config.RobotMap;
 import org.usfirst.frc.team4711.robot.subsystems.ControllerSubsystem;
@@ -51,28 +52,14 @@ public class CommandWithController extends PIDCommand {
     	_drive.arcadeDrive(driveSpeed, driveAngle);
 
     	if(Math.abs(_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y)) >= 0.1) {
-    		if (_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y) < 0) {
-    			_elevator.setMotorSpeed(-0.7);
-    			//setSetpoint(ElevatorSubsystem.HEIGHTS.GROUND.getHeight());
-    			System.out.println("Setpoint: " + ElevatorSubsystem.HEIGHTS.GROUND.getHeight());
-    		} else {
-    			_elevator.setMotorSpeed(.7);
-    			//setSetpoint(ElevatorSubsystem.HEIGHTS.HIGH.getHeight());
-    			System.out.println("Setpoint: " + ElevatorSubsystem.HEIGHTS.HIGH.getHeight());
-    		}
-    	} else {
+    		if (_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y) < 0)
+    			setSetpoint(ElevatorSubsystem.HEIGHTS.GROUND.getHeight());
+    		 else 
+    			setSetpoint(ElevatorSubsystem.HEIGHTS.HIGH.getHeight());
+    		
+    	} else 
     		setSetpoint(_elevator.getPosition());
-    	}
-    	System.out.println("Elevator encoder position: " + _elevator.getPosition());
-    	
-    	//System.out.println(_drive.gyro.getAngle());
-    	
-    	//testing logging
-
-//		System.out.println("Start Position : " + StartPositionSwitchSubsystem.getInstance().getStartPosition());
-//    	System.out.println("left : " + _drive.getCurrentLeftPosition() +
-//    						", right : " + _drive.getCurrentRightPosition() +
-//    						", elevator : " + Utils.convertPositionToInches(_elevator.getPosition(), RobotMap.ELEVATOR_WHEEL_DIAMETER));
+    
     }
 
 	@Override
@@ -99,7 +86,8 @@ public class CommandWithController extends PIDCommand {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		_elevator.setMotorSpeed(_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y) * Math.abs(output));
+		//_elevator.setMotorSpeed(-_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y) * Math.abs(output));
+		_elevator.setMotorSpeed(-_controller.getController().getRawAxis(RobotMap.AXIS_RIGHT_Y));
 	}
 
 }

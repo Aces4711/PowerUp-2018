@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc.team4711.robot.config.MotorSpeeds;
 
-
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class WinchSubsystem extends Subsystem {
@@ -33,6 +33,11 @@ public class WinchSubsystem extends Subsystem {
 	}
 	
 	public void setMotorSpeed(double moveValue){
+		if(DriverStation.getInstance().isOperatorControl()) 
+			moveValue *= MotorSpeeds.TELEOP_MULTIPLIER;
+		else
+			moveValue *= MotorSpeeds.AUTONOMOUS_MULTIPLIER;
+		
 		winch.set(moveValue * MotorSpeeds.CLIMB_SPEED);
 	}
 }

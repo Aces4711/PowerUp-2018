@@ -6,4 +6,7 @@ public class MotorSpeeds {
 	public static final double ELEVATOR_SPEED = 1.0;
 	public static final double CLIMB_SPEED = 1.0;
 	public static final double CLAW_SPEED = .7;
+	
+	public static final double AUTONOMOUS_MULTIPLIER = .7;
+	public static final double TELEOP_MULTIPLIER = 1.0;
 }

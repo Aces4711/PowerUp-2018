@@ -13,10 +13,10 @@ public class RobotMap {
 	public static final int FRTalon = 1;
 	public static final int BLTalon = 2;
 	public static final int BRTalon = 3;
-	public static final int ETalon = 5; //8
+	public static final int ETalon = 8; 
 	public static final int LCTalon = 6;
 	public static final int RCTalon = 7;
-	public static final int WINCH = 8; //5
+	public static final int WINCH = 5; 
 	
 	public static final int JOYSTICK_PORT = 0;
 	public static final int AXIS_TRIGGER_LT = 2;
@@ -38,7 +38,7 @@ public class RobotMap {
 	public static final double ELEVATOR_HIGH_HIGHT = 66.5; 
 	public static final double ELEVATOR_MID_HIGHT = 24.0;
 	public static final double ELEVATOR_LOW_HIGHT = 19.0;
-	public static final double ELEVATOR_GROUND_HIGHT = 0.0;
+	public static final double ELEVATOR_GROUND_HIGHT = 3.0;
 	
 	// Auto selection switch
 	public static final int LEFT_DIO_SWITCH = 0;
@@ -49,4 +49,14 @@ public class RobotMap {
 	//only can use 160x120, 320x240, 640x480
 	public static final int CAMERA_IMG_WIDTH = 320;
 	public static final int CAMERA_IMG_HEIGHT = 240;
+	
+	public static final int LEFT_LOCATION = 1;
+	public static final int CENTER_LOCATION = 2;
+	public static final int RIGHT_LOCATION = 3;
+	
+	public static final double ROBOT_WIDTH = 34.5; //wheel to wheel
+	public static final double ROBOT_LENGTH = 38.5;
+	public static final double BOX_HANG_OVER = 5;
+	public static final double ROBOT_WHEELS_SPACING = 24; //21.5 is the correct answer
+	
 }

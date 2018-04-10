@@ -69,7 +69,6 @@ public class RobotEyeSubsystem extends Subsystem {
         }
 		
 		visionThreadFront = new Thread(() -> {
-			//todo: create new filter pipeline for top targets else just doing the same as gears
 			Mat source = new Mat();
 			
 			while(!Thread.interrupted()){

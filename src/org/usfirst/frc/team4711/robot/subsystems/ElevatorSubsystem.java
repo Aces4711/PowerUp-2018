@@ -7,6 +7,7 @@ import org.usfirst.frc.team4711.robot.config.RobotMap;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 public class ElevatorSubsystem extends PIDSubsystem {
@@ -45,11 +46,11 @@ public class ElevatorSubsystem extends PIDSubsystem {
 
 		_motor = new WPI_TalonSRX(RobotMap.ETalon);
 		_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		int absolute = _motor.getSensorCollection().getPulseWidthPosition() & 0xff;
+		int absolute = _motor.getSensorCollection().getPulseWidthPosition() & 0xfff;
         _motor.setSelectedSensorPosition(absolute, 0, 0);
+        _motor.setSensorPhase(true);
+        _motor.setInverted(true);
         
-        _motor.setInverted(false);
-        //_motor.setSensorPhase(true);
 	}
 
 	public static ElevatorSubsystem getInstance(){
@@ -65,9 +66,14 @@ public class ElevatorSubsystem extends PIDSubsystem {
 
 	public void setMotorSpeed(double moveValue){
 		//Soft locks on the high and low positions of the elevator setpoint system
-		if((moveValue > 0.0 && getPosition() <= ElevatorSubsystem.HEIGHTS.GROUND.getHeight()) ||
-		   (moveValue < 0.0 && getPosition() >= ElevatorSubsystem.HEIGHTS.HIGH.getHeight()))
+		if((moveValue < 0.0 && getPosition() <= ElevatorSubsystem.HEIGHTS.GROUND.getHeight()) ||
+		   (moveValue > 0.0 && getPosition() >= ElevatorSubsystem.HEIGHTS.HIGH.getHeight()))
 			moveValue = 0.0;
+		
+		if(DriverStation.getInstance().isOperatorControl()) 
+			moveValue *= MotorSpeeds.TELEOP_MULTIPLIER;
+		else
+			moveValue *= MotorSpeeds.AUTONOMOUS_MULTIPLIER;
 			
 		_motor.set(moveValue * MotorSpeeds.ELEVATOR_SPEED);
 	}
